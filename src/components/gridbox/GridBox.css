@@ -1,0 +1,13 @@
+.textSquare {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 80px;
+  margin: auto;
+  padding: 5%;
+  color: white;
+}
+
+.row {
+  flex-direction: column;
+}
