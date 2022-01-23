@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import "./GridBox.css";
+import Grid from "@mui/material/Grid";
 
 const answer = ["p", "r", "i", "y", "a"];
 
@@ -26,47 +27,85 @@ const GridBox = ({ userInput, attempts }) => {
   // console.log("attempts", attempts);
   // console.log("successArray", successArray);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        "& > :not(style)": {
-          m: 1,
-          width: 128,
-          height: 128,
-        },
-      }}
-    >
-      {answer.map((item, i) => (
-        <Paper
-          style={{ backgroundColor: successArray[i] }}
-          variant="outlined"
-          square
+    <>
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            display: "flex",
+            "& > :not(style)": {
+              m: 1,
+              width: 128,
+              height: 128,
+            },
+          }}
         >
-          <div className="textSquare">{userInput[i]}</div>
-        </Paper>
-      ))}
-      <br />
+          {answer.map((item, i) => (
+            <Paper
+              key={i}
+              style={{ backgroundColor: successArray[i] }}
+              variant="outlined"
+              square
+            >
+              <div className="textSquare">{userInput[i]}</div>
+            </Paper>
+          ))}
 
-      {/* <Paper
-        // style={{ backgroundColor: backgroundColor }}
-        variant="outlined"
-        square
-      >
-        <h1>{userInput[0]}</h1>
-      </Paper>
-      <Paper square>
-        <h1>{userInput[1]}</h1>
-      </Paper>
-      <Paper variant="outlined" square>
-        <h1>{userInput[2]}</h1>
-      </Paper>
-      <Paper variant="outlined" square>
-        <h1>{userInput[3]}</h1>
-      </Paper>
-      <Paper variant="outlined" square>
-        <h1>{userInput[4]}</h1>
-      </Paper> */}
-    </Box>
+          <br />
+        </Box>
+      </Grid>
+      {/* --------------22222----------------- */}
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            display: "flex",
+            "& > :not(style)": {
+              m: 1,
+              width: 128,
+              height: 128,
+            },
+          }}
+        >
+          {answer.map((item, i) => (
+            <Paper
+              key={i}
+              style={{ backgroundColor: successArray[i] }}
+              variant="outlined"
+              square
+            >
+              <div className="textSquare">{userInput[i]}</div>
+            </Paper>
+          ))}
+
+          <br />
+        </Box>
+      </Grid>
+      {/* --------------33333----------------- */}
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            display: "flex",
+            "& > :not(style)": {
+              m: 1,
+              width: 128,
+              height: 128,
+            },
+          }}
+        >
+          {answer.map((item, i) => (
+            <Paper
+              key={i}
+              style={{ backgroundColor: successArray[i] }}
+              variant="outlined"
+              square
+            >
+              <div className="textSquare">{userInput[i]}</div>
+            </Paper>
+          ))}
+
+          <br />
+        </Box>
+      </Grid>
+    </>
   );
 };
 

@@ -19,7 +19,7 @@ function App() {
     console.log("from submit", userInput);
     e.preventDefault();
     tries.push(userInput);
-    setAttempts(...userInput);
+    setAttempts([userInput, ...userInput]);
     console.log("tries", tries);
   };
   const handleChange = (e) => {
