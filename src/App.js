@@ -10,42 +10,36 @@ import Button from "@mui/material/Button";
 
 function App() {
   const [userInput, setUserInput] = useState([]);
-  const [attempts, setAttempts] = useState([]);
 
-  const tries = [];
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-  const handleSubmit = (e) => {
-    //setUserInput(e.target.value);
-    console.log("from submit", userInput);
-    e.preventDefault();
-    tries.push(userInput);
-    setAttempts([userInput, ...userInput]);
-    console.log("tries", tries);
-  };
+  //   console.log("from submit", userInput);
+  // };
   const handleChange = (e) => {
-    // console.log(e.target.value);
     setUserInput(e.target.value);
+    if (e.target.value.length == 5) {
+      e.target.value = "";
+    }
   };
+
+  if (userInput.length == 5) {
+    setTimeout(() => {
+      setUserInput("");
+    }, 10);
+  }
 
   //console.log("userInput", userInput);
-  // console.log("tries", tries);
-  console.log("attempts", attempts);
 
   return (
     <div className="App">
-      <h1>{tries[0]}</h1>
-      <h1>{tries[1]}</h1>
-      <h1>{tries[0]}</h1>
-      <h1>{tries[3]}</h1>
-      <h1>{tries[4]}</h1>
-
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <label>
           Guess:
           <input type="text" onChange={handleChange} />
         </label>
-        <input type="submit" value="Submit" />
-      </form>
+  
+      </form> */}
       <Box
         component="form"
         sx={{
@@ -55,23 +49,18 @@ function App() {
         autoComplete="off"
       >
         <div>
-          {/* <TextField
-            //   error
-            //   label="Error"
+          <TextField
             defaultValue=""
             placeholder="guess here!"
-            //   helperText="Incorrect entry."
             variant="standard"
             inputProps={{ maxLength: 5 }}
             onChange={handleChange}
-          /> */}
-
-          {/* <Button variant="contained">Submit</Button> */}
+            // onSubmit={handleSubmit}
+          />
         </div>
-        {/* <h1>3rd is{userInput[3]}</h1> */}
       </Box>
-      {/* <Input /> */}
-      <GridBox userInput={userInput} attempts={attempts} />
+
+      <GridBox userInput={userInput} />
     </div>
   );
 }
