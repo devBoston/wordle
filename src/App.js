@@ -1,16 +1,24 @@
 import GridBox from "./components/gridbox/GridBox";
 import Input from "./components/input/Input";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { wordList } from "./wordList";
 
 function App() {
   const [userInput, setUserInput] = useState([]);
+  const [randomAnswer, setrandomAnswer] = useState("");
 
+  useEffect(() => {
+    const rndInteger = Math.floor(Math.random() * 5000) + 1;
+    const UEanswer = wordList[rndInteger].split("");
+    console.log(UEanswer, "fromn useeffect");
+    setrandomAnswer(UEanswer);
+  }, []);
   // const handleSubmit = (e) => {
   //   e.preventDefault();
 
@@ -29,7 +37,7 @@ function App() {
     }, 10);
   }
 
-  //console.log("userInput", userInput);
+  console.log("randomAnswer", randomAnswer);
 
   return (
     <div className="App">
@@ -60,7 +68,7 @@ function App() {
         </div>
       </Box>
 
-      <GridBox userInput={userInput} />
+      <GridBox userInput={userInput} randomAnswer={randomAnswer} />
     </div>
   );
 }
