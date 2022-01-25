@@ -6,6 +6,8 @@ import Grid from "@mui/material/Grid";
 import { wordList } from "../../wordList";
 import Countdown from "react-countdown";
 import BasicModal from "../modal/Modal";
+// import MyTimer from "../stopwatch/stopwatch";
+import CustomStopWatch from "../customStopwatch/customStopWatch";
 
 const triesWorking = [];
 const finalSuccess = [];
@@ -81,6 +83,8 @@ const GridBox = ({ userInput, randomAnswer }) => {
 
   return (
     <>
+      {/* <MyTimer solved={solved} finalSuccess={finalSuccess} /> */}
+      <CustomStopWatch solved={solved} finalSuccess={finalSuccess} />
       <BasicModal
         solved={solved}
         finalSuccess={finalSuccess}
@@ -123,7 +127,6 @@ const GridBox = ({ userInput, randomAnswer }) => {
         </Grid>
       ) : null}
       {/* --------------------------- */}
-
       {finalSuccess.length > 2 ? (
         <Grid item xs={12}>
           <Box

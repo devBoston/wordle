@@ -15,12 +15,12 @@ function App() {
   const [solved, setSolved] = useState(false);
 
   // useEffect(() => {
-  //   if (seconds > 0) {
+  //   if (seconds > 0 && !solved) {
   //     setTimeout(() => setSeconds(seconds - 1), 1000);
   //   } else {
   //     setSeconds("waiting/Game Over!");
   //   }
-  // });
+  // }, [solved]);
 
   useEffect(() => {
     const rndInteger = Math.floor(Math.random() * 5000) + 1;
@@ -28,6 +28,13 @@ function App() {
     console.log(UEanswer, "fromn useeffect");
     setrandomAnswer(UEanswer);
   }, []);
+
+  // const Timers = () => {
+  //   if (seconds > 0 && !solved) {
+  //     setTimeout(() => setSeconds(seconds - 1), 1000);
+  //     Timers();
+  //   }
+  // };
 
   const handleChange = (e) => {
     setUserInput(e.target.value);
@@ -48,6 +55,8 @@ function App() {
 
   return (
     <div className="App">
+      {/* {seconds}
+      <MyTimer solved={solved}/> */}
       <Box
         component="form"
         sx={{
