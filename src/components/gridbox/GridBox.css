@@ -11,3 +11,8 @@
 .row {
   flex-direction: column;
 }
+
+.errorMessage {
+  color: orange;
+  font-size: 40px;
+}

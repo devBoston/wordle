@@ -9,9 +9,11 @@ import Countdown from "react-countdown";
 const triesWorking = [];
 const finalSuccess = [];
 let solved = false;
+let errorMessage = false;
 
 const GridBox = ({ userInput, randomAnswer }) => {
   let successArray = [];
+
   for (let i = 0; i < randomAnswer.length; i++) {
     if (userInput[i] == randomAnswer[i]) {
       successArray.push("#538E4E");
@@ -31,14 +33,19 @@ const GridBox = ({ userInput, randomAnswer }) => {
   getRandomWord();
 
   console.log("userInput from gridbox", userInput);
-  if (userInput.length == 5) triesWorking.push(userInput);
-
-  if (userInput.length == 5) finalSuccess.push(successArray);
-
-  if (successArray[0] == "#538E4E") {
-    solved = true;
-    console.log(solved, "solved!!!!!");
+  if (userInput.length == 5 && wordList.includes(userInput)) {
+    triesWorking.push(userInput);
+  } else if (userInput.length == 5 && !wordList.includes(userInput)) {
+    errorMessage = true;
   }
+
+  if (userInput.length == 5 && wordList.includes(userInput))
+    finalSuccess.push(successArray);
+
+  // if (successArray[0] == "#538E4E") {
+  //   solved = true;
+  //   console.log(solved, "solved!!!!!");
+  // }
 
   console.log("successArray", successArray);
 
@@ -49,7 +56,7 @@ const GridBox = ({ userInput, randomAnswer }) => {
   const Completionist = () => <span>Game Over!</span>;
 
   // Renderer callback with condition
-  const renderer = ({ seconds, completed }, successArray) => {
+  const renderer = ({ seconds, completed }) => {
     if (solved) {
       const completedTime = [];
       completedTime.push(seconds);
@@ -67,6 +74,11 @@ const GridBox = ({ userInput, randomAnswer }) => {
   return (
     <>
       {/* <div>{basicTimer}</div> */}
+      {!errorMessage ? (
+        ""
+      ) : (
+        <div className="errorMessage">Word not found. Please try again.</div>
+      )}
       <Countdown renderer={renderer} date={Date.now() + 30000} />
       {finalSuccess.length > 0 ? (
         <Grid item xs={12}>
