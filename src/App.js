@@ -43,15 +43,11 @@ function App() {
     }, 10);
   }
 
-  // if (successArray.every('#3A3A3C'))
-
   console.log("randomAnswer", randomAnswer);
   console.log("userInput", userInput);
 
   return (
     <div className="App">
-      {/* <MyTimer /> */}
-      {/* {seconds} */}
       <Box
         component="form"
         sx={{
@@ -60,10 +56,10 @@ function App() {
         noValidate
         autoComplete="off"
       >
-        <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <TextField
             defaultValue=""
-            placeholder="guess here!"
+            placeholder="Take a guess!"
             variant="standard"
             inputProps={{ maxLength: 5 }}
             onChange={handleChange}

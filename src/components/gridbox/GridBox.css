@@ -13,6 +13,11 @@
 }
 
 .errorMessage {
-  color: orange;
+  color: #b49f3b;
+  font-size: 40px;
+}
+
+.solved {
+  color: #538e4e;
   font-size: 40px;
 }

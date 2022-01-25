@@ -5,11 +5,13 @@ import "./GridBox.css";
 import Grid from "@mui/material/Grid";
 import { wordList } from "../../wordList";
 import Countdown from "react-countdown";
+import BasicModal from "../modal/Modal";
 
 const triesWorking = [];
 const finalSuccess = [];
 let solved = false;
 let errorMessage = false;
+let gameOver = false;
 
 const GridBox = ({ userInput, randomAnswer }) => {
   let successArray = [];
@@ -28,13 +30,14 @@ const GridBox = ({ userInput, randomAnswer }) => {
     return Math.floor(Math.random() * 5758) + 1;
   }
   const getRandomWord = () => {
-    randomAnswer = wordList[getRndInteger()].split("");
+    randomAnswer = wordList[getRndInteger()]?.split("");
   };
   getRandomWord();
 
   console.log("userInput from gridbox", userInput);
   if (userInput.length == 5 && wordList.includes(userInput)) {
     triesWorking.push(userInput);
+    errorMessage = false;
   } else if (userInput.length == 5 && !wordList.includes(userInput)) {
     errorMessage = true;
   }
@@ -42,44 +45,54 @@ const GridBox = ({ userInput, randomAnswer }) => {
   if (userInput.length == 5 && wordList.includes(userInput))
     finalSuccess.push(successArray);
 
-  // if (successArray[0] == "#538E4E") {
-  //   solved = true;
-  //   console.log(solved, "solved!!!!!");
-  // }
+  const solvedPuzzle = (currentValue) => currentValue == "#538E4E";
+  if (finalSuccess[finalSuccess.length - 1]?.every(solvedPuzzle)) {
+    solved = true;
+  }
+
+  if (finalSuccess.length == 10) {
+    gameOver = true;
+    console.log("game is over!!!!!!!!!!");
+  }
 
   console.log("successArray", successArray);
 
   const filteredTriesWorking = triesWorking.filter((item) => item.length > 4);
   console.log("filteredTriesWorking", filteredTriesWorking);
-  console.log("finalSuccess", finalSuccess);
+  console.log("finalSuccess length is ", finalSuccess.length);
 
-  const Completionist = () => <span>Game Over!</span>;
+  // const Completionist = () => <span>Game Over!</span>;
 
-  // Renderer callback with condition
-  const renderer = ({ seconds, completed }) => {
-    if (solved) {
-      const completedTime = [];
-      completedTime.push(seconds);
-      console.log(completedTime, "this works!!!!");
-      return <span>{completedTime}"this works!!!!"</span>;
-    } else if (completed) {
-      // Render a complete state
-      return <Completionist />;
-    } else {
-      // Render a countdown
-      return <span>{seconds}</span>;
-    }
-  };
+  // // Renderer callback with condition
+  // const renderer = ({ seconds, completed }) => {
+  //   if (solved) {
+  //     const completedTime = [];
+  //     completedTime.push(seconds);
+  //     console.log(completedTime, "this works!!!!");
+  //     return <span>{completedTime}"this works!!!!"</span>;
+  //   } else if (completed) {
+  //     // Render a complete state
+  //     return <Completionist />;
+  //   } else {
+  //     // Render a countdown
+  //     return <span>{seconds}</span>;
+  //   }
+  // };
 
   return (
     <>
-      {/* <div>{basicTimer}</div> */}
+      <BasicModal
+        solved={solved}
+        finalSuccess={finalSuccess}
+        gameOver={gameOver}
+      />
+      {/* {!solved ? "" : <div className="solved">CONGRATS!</div>} */}
       {!errorMessage ? (
         ""
       ) : (
         <div className="errorMessage">Word not found. Please try again.</div>
       )}
-      <Countdown renderer={renderer} date={Date.now() + 30000} />
+      {/* <Countdown renderer={renderer} date={Date.now() + 30000} /> */}
       {finalSuccess.length > 0 ? (
         <Grid item xs={12}>
           <Box
