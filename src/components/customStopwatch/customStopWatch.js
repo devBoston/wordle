@@ -31,7 +31,19 @@ const CustomStopWatch = ({ solved, finalSuccess }) => {
     return () => clearInterval(interval);
   }, [isActive, seconds, finalSuccess, solved]);
 
-  return <div className="time">{seconds}</div>;
+  return (
+    <div
+      style={{
+        fontSize: "30px",
+        display: "flex",
+        justifyContent: "right",
+        margin: "3vw",
+      }}
+      className="time"
+    >
+      {seconds}
+    </div>
+  );
 };
 
 export default CustomStopWatch;

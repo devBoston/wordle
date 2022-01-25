@@ -63,40 +63,21 @@ const GridBox = ({ userInput, randomAnswer }) => {
   console.log("filteredTriesWorking", filteredTriesWorking);
   console.log("finalSuccess length is ", finalSuccess.length);
 
-  // const Completionist = () => <span>Game Over!</span>;
-
-  // // Renderer callback with condition
-  // const renderer = ({ seconds, completed }) => {
-  //   if (solved) {
-  //     const completedTime = [];
-  //     completedTime.push(seconds);
-  //     console.log(completedTime, "this works!!!!");
-  //     return <span>{completedTime}"this works!!!!"</span>;
-  //   } else if (completed) {
-  //     // Render a complete state
-  //     return <Completionist />;
-  //   } else {
-  //     // Render a countdown
-  //     return <span>{seconds}</span>;
-  //   }
-  // };
-
   return (
     <>
-      {/* <MyTimer solved={solved} finalSuccess={finalSuccess} /> */}
       <CustomStopWatch solved={solved} finalSuccess={finalSuccess} />
       <BasicModal
         solved={solved}
         finalSuccess={finalSuccess}
         gameOver={gameOver}
       />
-      {/* {!solved ? "" : <div className="solved">CONGRATS!</div>} */}
+
       {!errorMessage ? (
         ""
       ) : (
         <div className="errorMessage">Word not found. Please try again.</div>
       )}
-      {/* <Countdown renderer={renderer} date={Date.now() + 30000} /> */}
+
       {finalSuccess.length > 0 ? (
         <Grid item xs={12}>
           <Box

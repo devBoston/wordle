@@ -6,21 +6,12 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
 import { wordList } from "./wordList";
-import MyTimer from "./components/stopwatch/stopwatch";
 
 function App() {
   const [userInput, setUserInput] = useState([]);
   const [randomAnswer, setrandomAnswer] = useState("");
   const [seconds, setSeconds] = useState(30);
   const [solved, setSolved] = useState(false);
-
-  // useEffect(() => {
-  //   if (seconds > 0 && !solved) {
-  //     setTimeout(() => setSeconds(seconds - 1), 1000);
-  //   } else {
-  //     setSeconds("waiting/Game Over!");
-  //   }
-  // }, [solved]);
 
   useEffect(() => {
     const rndInteger = Math.floor(Math.random() * 5000) + 1;
@@ -29,18 +20,10 @@ function App() {
     setrandomAnswer(UEanswer);
   }, []);
 
-  // const Timers = () => {
-  //   if (seconds > 0 && !solved) {
-  //     setTimeout(() => setSeconds(seconds - 1), 1000);
-  //     Timers();
-  //   }
-  // };
-
   const handleChange = (e) => {
     setUserInput(e.target.value);
     if (e.target.value.length == 5) {
       e.target.value = "";
-      // timer();
     }
   };
 
@@ -55,8 +38,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* {seconds}
-      <MyTimer solved={solved}/> */}
       <Box
         component="form"
         sx={{
