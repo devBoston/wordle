@@ -4,10 +4,7 @@ import Paper from "@mui/material/Paper";
 import "./GridBox.css";
 import Grid from "@mui/material/Grid";
 import { wordList } from "../../wordList";
-import Countdown from "react-countdown";
 import BasicModal from "../modal/Modal";
-// import MyTimer from "../stopwatch/stopwatch";
-import CustomStopWatch from "../customStopwatch/customStopWatch";
 
 const triesWorking = [];
 const finalSuccess = [];
@@ -17,6 +14,8 @@ let gameOver = false;
 
 const GridBox = ({ userInput, randomAnswer }) => {
   let successArray = [];
+  const [seconds, setSeconds] = useState(30);
+  const [isActive, setIsActive] = useState(true);
 
   for (let i = 0; i < randomAnswer.length; i++) {
     if (userInput[i] == randomAnswer[i]) {
@@ -27,6 +26,28 @@ const GridBox = ({ userInput, randomAnswer }) => {
       successArray.push("#3A3A3C");
     }
   }
+
+  useEffect(() => {
+    let interval = null;
+    if (finalSuccess.length > 0) {
+      setIsActive(true);
+    }
+    if (solved) {
+      setIsActive(false);
+      return;
+    }
+    if (seconds <= 0) {
+      setIsActive(false);
+    }
+    if (isActive) {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+      }, 1000);
+    } else if (!isActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
 
   function getRndInteger() {
     return Math.floor(Math.random() * 5758) + 1;
@@ -52,181 +73,179 @@ const GridBox = ({ userInput, randomAnswer }) => {
     solved = true;
   }
 
-  if (finalSuccess.length == 10) {
+  if (finalSuccess.length == 10 && !solved) {
     gameOver = true;
-    console.log("game is over!!!!!!!!!!");
   }
-
-  console.log("successArray", successArray);
-
   const filteredTriesWorking = triesWorking.filter((item) => item.length > 4);
-  console.log("filteredTriesWorking", filteredTriesWorking);
-  console.log("finalSuccess length is ", finalSuccess.length);
-
   return (
     <>
-      <CustomStopWatch solved={solved} finalSuccess={finalSuccess} />
-      <BasicModal
-        solved={solved}
-        finalSuccess={finalSuccess}
-        gameOver={gameOver}
-      />
+      <Grid>
+        <div className="seconds">{seconds}</div>
 
-      {!errorMessage ? (
-        ""
-      ) : (
-        <div className="errorMessage">Word not found. Please try again.</div>
-      )}
+        <BasicModal
+          solved={solved}
+          finalSuccess={finalSuccess}
+          gameOver={gameOver}
+          seconds={seconds}
+          randomAnswer={randomAnswer}
+        />
 
-      {finalSuccess.length > 0 ? (
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: "flex",
-              "& > :not(style)": {
-                m: 1,
-                width: 128,
-                height: 128,
-              },
-            }}
-          >
-            {randomAnswer.map((item, i) => (
-              <Paper
-                key={i}
-                style={{ backgroundColor: finalSuccess[0][i] }}
-                variant="outlined"
-                square
-              >
-                <div className="textSquare">
-                  {filteredTriesWorking[0].split("")[i]}
-                </div>
-              </Paper>
-            ))}
+        {!errorMessage ? (
+          ""
+        ) : (
+          <div className="errorMessage">Word not found. Please try again.</div>
+        )}
 
-            <br />
-          </Box>
-        </Grid>
-      ) : null}
-      {/* --------------------------- */}
-      {finalSuccess.length > 2 ? (
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: "flex",
-              "& > :not(style)": {
-                m: 1,
-                width: 128,
-                height: 128,
-              },
-            }}
-          >
-            {randomAnswer.map((item, i) => (
-              <Paper
-                key={i}
-                style={{ backgroundColor: finalSuccess[2][i] }}
-                variant="outlined"
-                square
-              >
-                <div className="textSquare">
-                  {filteredTriesWorking[2].split("")[i]}
-                </div>
-              </Paper>
-            ))}
+        {finalSuccess.length > 0 ? (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 128,
+                  height: 128,
+                },
+              }}
+            >
+              {randomAnswer.map((item, i) => (
+                <Paper
+                  key={i}
+                  style={{ backgroundColor: finalSuccess[0][i] }}
+                  variant="outlined"
+                  square
+                >
+                  <div className="textSquare">
+                    {filteredTriesWorking[0].split("")[i]}
+                  </div>
+                </Paper>
+              ))}
 
-            <br />
-          </Box>
-        </Grid>
-      ) : null}
-      {/* --------------22222-----this works below------------ */}
-      {finalSuccess.length > 4 ? (
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: "flex",
-              "& > :not(style)": {
-                m: 1,
-                width: 128,
-                height: 128,
-              },
-            }}
-          >
-            {randomAnswer.map((item, i) => (
-              <Paper
-                key={i}
-                style={{ backgroundColor: finalSuccess[4][i] }}
-                variant="outlined"
-                square
-              >
-                <div className="textSquare">
-                  {filteredTriesWorking[4].split("")[i]}
-                </div>
-              </Paper>
-            ))}
+              <br />
+            </Box>
+          </Grid>
+        ) : null}
+        {/* --------------------------- */}
+        {finalSuccess.length > 2 ? (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 128,
+                  height: 128,
+                },
+              }}
+            >
+              {randomAnswer.map((item, i) => (
+                <Paper
+                  key={i}
+                  style={{ backgroundColor: finalSuccess[2][i] }}
+                  variant="outlined"
+                  square
+                >
+                  <div className="textSquare">
+                    {filteredTriesWorking[2].split("")[i]}
+                  </div>
+                </Paper>
+              ))}
 
-            <br />
-          </Box>
-        </Grid>
-      ) : null}
-      {/* --------------33333----------------- */}
-      {finalSuccess.length > 6 ? (
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: "flex",
-              "& > :not(style)": {
-                m: 1,
-                width: 128,
-                height: 128,
-              },
-            }}
-          >
-            {randomAnswer.map((item, i) => (
-              <Paper
-                key={i}
-                style={{ backgroundColor: finalSuccess[6][i] }}
-                variant="outlined"
-                square
-              >
-                <div className="textSquare">
-                  {filteredTriesWorking[6].split("")[i]}
-                </div>
-              </Paper>
-            ))}
+              <br />
+            </Box>
+          </Grid>
+        ) : null}
+        {/* --------------22222--------------- */}
+        {finalSuccess.length > 4 ? (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 128,
+                  height: 128,
+                },
+              }}
+            >
+              {randomAnswer.map((item, i) => (
+                <Paper
+                  key={i}
+                  style={{ backgroundColor: finalSuccess[4][i] }}
+                  variant="outlined"
+                  square
+                >
+                  <div className="textSquare">
+                    {filteredTriesWorking[4].split("")[i]}
+                  </div>
+                </Paper>
+              ))}
 
-            <br />
-          </Box>
-        </Grid>
-      ) : null}
-      {/* --------------444444----------------- */}
-      {finalSuccess.length > 8 ? (
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: "flex",
-              "& > :not(style)": {
-                m: 1,
-                width: 128,
-                height: 128,
-              },
-            }}
-          >
-            {randomAnswer.map((item, i) => (
-              <Paper
-                key={i}
-                style={{ backgroundColor: finalSuccess[8][i] }}
-                variant="outlined"
-                square
-              >
-                <div className="textSquare">
-                  {filteredTriesWorking[8].split("")[i]}
-                </div>
-              </Paper>
-            ))}
+              <br />
+            </Box>
+          </Grid>
+        ) : null}
+        {/* --------------33333----------------- */}
+        {finalSuccess.length > 6 ? (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 128,
+                  height: 128,
+                },
+              }}
+            >
+              {randomAnswer.map((item, i) => (
+                <Paper
+                  key={i}
+                  style={{ backgroundColor: finalSuccess[6][i] }}
+                  variant="outlined"
+                  square
+                >
+                  <div className="textSquare">
+                    {filteredTriesWorking[6].split("")[i]}
+                  </div>
+                </Paper>
+              ))}
 
-            <br />
-          </Box>
-        </Grid>
-      ) : null}
+              <br />
+            </Box>
+          </Grid>
+        ) : null}
+        {/* --------------444444----------------- */}
+        {finalSuccess.length > 8 ? (
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 128,
+                  height: 128,
+                },
+              }}
+            >
+              {randomAnswer.map((item, i) => (
+                <Paper
+                  key={i}
+                  style={{ backgroundColor: finalSuccess[8][i] }}
+                  variant="outlined"
+                  square
+                >
+                  <div className="textSquare">
+                    {filteredTriesWorking[8].split("")[i]}
+                  </div>
+                </Paper>
+              ))}
+
+              <br />
+            </Box>
+          </Grid>
+        ) : null}
+      </Grid>
     </>
   );
 };

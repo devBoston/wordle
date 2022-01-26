@@ -13,11 +13,26 @@
 }
 
 .errorMessage {
-  color: #b49f3b;
+  color: #b4783b;
   font-size: 40px;
+  float: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .solved {
   color: #538e4e;
   font-size: 40px;
+}
+
+.seconds {
+  float: center;
+  padding-bottom: 2vh;
+
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 28px;
+
+  color: #2e2e2e;
+  font-weight: 700;
 }

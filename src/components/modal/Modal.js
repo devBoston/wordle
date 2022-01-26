@@ -17,7 +17,12 @@ const style = {
   p: 6,
 };
 
-export default function BasicModal({ solved, finalSuccess, gameOver }) {
+export default function BasicModal({
+  solved,
+  finalSuccess,
+  gameOver,
+  seconds,
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -26,8 +31,6 @@ export default function BasicModal({ solved, finalSuccess, gameOver }) {
     handleOpen();
   }, [solved, gameOver]);
 
-  console.log("solved is", solved);
-  console.log("from MODAL FINAL SUCCESS", finalSuccess);
   return (
     <div>
       {!solved ? (
@@ -50,6 +53,16 @@ export default function BasicModal({ solved, finalSuccess, gameOver }) {
               >
                 WINNER!
               </div>
+              <div
+                style={{
+                  color: "#538e4e",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "30px",
+                }}
+              >
+                Score: {(6 - finalSuccess.length / 2) * seconds * 10}
+              </div>
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 1 }}>
               <div
@@ -59,7 +72,8 @@ export default function BasicModal({ solved, finalSuccess, gameOver }) {
                   justifyContent: "center",
                 }}
               >
-                You guessed the word in {finalSuccess.length / 2} tries!
+                You guessed the word in {finalSuccess.length / 2} tries with{" "}
+                {seconds} seconds left!
               </div>
             </Typography>
           </Box>
@@ -84,6 +98,7 @@ export default function BasicModal({ solved, finalSuccess, gameOver }) {
                 }}
               >
                 Better luck next time!
+                {seconds < 1 && gameOver ? " You ran out of time." : ""}
               </div>
             </Typography>
             <Typography
@@ -97,9 +112,45 @@ export default function BasicModal({ solved, finalSuccess, gameOver }) {
                   display: "flex",
                   justifyContent: "center",
                 }}
+              ></div>
+            </Typography>
+          </Box>
+        </Modal>
+      )}
+      {seconds > 0 ? (
+        ""
+      ) : (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h2" component="h2">
+              <div
+                style={{
+                  color: "#EF9613",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               >
-                You ran out of guesses.
+                Better luck next time!
+                {seconds < 1 ? " You ran out of time." : ""}
               </div>
+            </Typography>
+            <Typography
+              component={"span"}
+              id="modal-modal-description"
+              sx={{ mt: 1 }}
+            >
+              <div
+                style={{
+                  color: "#EF9613",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              ></div>
             </Typography>
           </Box>
         </Modal>

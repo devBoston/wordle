@@ -4,19 +4,17 @@ import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 
 import TextField from "@mui/material/TextField";
-
+import Grid from "@mui/material/Grid";
 import { wordList } from "./wordList";
 
 function App() {
   const [userInput, setUserInput] = useState([]);
   const [randomAnswer, setrandomAnswer] = useState("");
-  const [seconds, setSeconds] = useState(30);
-  const [solved, setSolved] = useState(false);
 
   useEffect(() => {
     const rndInteger = Math.floor(Math.random() * 5000) + 1;
     const UEanswer = wordList[rndInteger].split("");
-    console.log(UEanswer, "fromn useeffect");
+
     setrandomAnswer(UEanswer);
   }, []);
 
@@ -34,7 +32,6 @@ function App() {
   }
 
   console.log("randomAnswer", randomAnswer);
-  console.log("userInput", userInput);
 
   return (
     <div className="App">
@@ -46,18 +43,40 @@ function App() {
         noValidate
         autoComplete="off"
       >
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "5vh",
+          }}
+        >
           <TextField
             defaultValue=""
             placeholder="Take a guess!"
             variant="standard"
             inputProps={{ maxLength: 5 }}
             onChange={handleChange}
+            size="normal"
           />
         </div>
       </Box>
+      <div
+        style={{
+          justifyContent: "center",
 
-      <GridBox userInput={userInput} randomAnswer={randomAnswer} />
+          alignItems: "center",
+        }}
+      >
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          item
+          xs={12}
+        >
+          <GridBox userInput={userInput} randomAnswer={randomAnswer} />
+        </Grid>
+      </div>
     </div>
   );
 }
