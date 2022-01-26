@@ -57,7 +57,6 @@ const GridBox = ({ userInput, randomAnswer }) => {
   };
   getRandomWord();
 
-  console.log("userInput from gridbox", userInput);
   if (userInput.length == 5 && wordList.includes(userInput)) {
     triesWorking.push(userInput);
     errorMessage = false;
